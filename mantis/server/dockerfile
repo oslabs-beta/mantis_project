@@ -1,0 +1,36 @@
+# It is a plain text file with no file extension.
+# It contains instructions for Docker to build an image.
+# Example: /api-gateway/Dockerfile should look like this:
+# dockerfile
+
+# ✅ When Can You Remove the Dockerfile?
+# 🚫 You can remove /api-gateway/Dockerfile if:
+
+# You are using a prebuilt Docker image (like node:18 or a published API image from Docker Hub).
+# You don’t need custom environment setups, package installs, or additional dependencies.
+# ✅ You must keep the Dockerfile if:
+
+# You need to install dependencies (npm install) inside the container.
+# You want a consistent runtime environment (same Node.js version, same dependencies).
+# You don’t want to manually install dependencies before running the container.
+
+#Example
+
+# # Use Node.js base image
+# FROM node:18
+
+# # Set working directory inside the container
+# WORKDIR /usr/src/app
+
+# # Copy package.json and install dependencies
+# COPY package*.json ./
+# RUN npm install
+
+# # Copy application files
+# COPY . .
+
+# # Expose port 8000 for API
+# EXPOSE 8000
+
+# # Start the API Gateway
+# CMD ["node", "server.js"]
