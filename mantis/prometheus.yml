@@ -1,0 +1,16 @@
+# example
+global:
+  scrape_interval: 5s  # Collect metrics every 5 seconds
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # - job_name: "express-api"
+  #   static_configs:
+  #     - targets: ["localhost:8000"]  # Replace with your actual backend URL
+
+  # - job_name: "node-exporter"  # If using Node Exporter for system metrics
+  #   static_configs:
+  #     - targets: ["localhost:9100"]

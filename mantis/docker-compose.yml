@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  influxdb:
+    image: quay.io/influxdb/influxdb3-core:latest    # or latest stable when available
+    container_name: influxdb
+    ports:
+      - "8086:8086"  # or 8086:8086 depending on version
+    environment:
+      INFLUXD_ADMIN_USER: "admin"
+      INFLUXD_ADMIN_PASSWORD: "supersecret"
+      # Possibly more environment variables
+    volumes:
+      - ./influx_data:/var/lib/influxdb2
+    
+    entrypoint: ["/bin/sh", "-c", "/docker-entrypoint-initdb.d/create_influx_user.sh admin adminpassword myBucket 30d"] #do more research on this
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+
+
