@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  # influxdb:
+  # image: quay.io/influxdb/influxdb3-core:latest
+  # image: influxdb:2.7.1
+  # container_name: influxdb
+  # ports:
+  #   - '8086:8086'
+  # environment:
+  #   INFLUXD_ADMIN_USER: 'admin'
+  #   INFLUXD_ADMIN_PASSWORD: 'supersecret'
+  # volumes:
+  #   - ./influx_data:/var/lib/influxdb2
+  #   - ./create_influx_user.sh:/docker-entrypoint-initdb.d/create_influx_user.sh
+  # entrypoint:
+  #   [
+  #     '/bin/sh',
+  #     '-c',
+  #     '/docker-entrypoint-initdb.d/create_influx_user.sh admin adminpass myBucket 30d',
+  #   ]
+  # healthcheck:
+  #   test: ['CMD', 'curl', '-f', 'http://localhost:8086/health']
+  #   interval: 10s
+  #   retries: 5
+  #   start_period: 5s
+
+  influxdb:
+    image: influxdb:2.7.1
+    container_name: influxdb
+    ports:
+      - '8086:8086'
+    environment:
+      # These are the key init vars:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: supersecret
+      DOCKER_INFLUXDB_INIT_ORG: MainOrg
+      DOCKER_INFLUXDB_INIT_BUCKET: myBucket
+      DOCKER_INFLUXDB_INIT_RETENTION: 30d
+    volumes:
+      - ./influx_data:/var/lib/influxdb2
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8086/health']
+      interval: 10s
+      retries: 5
+      start_period: 5s
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    depends_on:
+      - prometheus
+
+    # influxdb: image: influxdb:2.7.1 # Official image with CLI container_name: influxdb ports: - "8086:8086" environment: - INFLUXD_ADMIN_USER=admin - INFLUXD_ADMIN_PASSWORD=supersecret volumes: - ./influx_data:/var/lib/influxdb

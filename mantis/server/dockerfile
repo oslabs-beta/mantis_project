@@ -17,20 +17,20 @@
 #Example
 
 # # Use Node.js base image
-# FROM node:18
+FROM node:18
 
 # # Set working directory inside the container
-# WORKDIR /usr/src/app
+WORKDIR /app
 
 # # Copy package.json and install dependencies
-# COPY package*.json ./
-# RUN npm install
+COPY package*.json ./
+RUN npm install
 
 # # Copy application files
-# COPY . .
+COPY . .
 
 # # Expose port 8000 for API
-# EXPOSE 8000
+EXPOSE 8000
 
 # # Start the API Gateway
-# CMD ["node", "server.js"]
+CMD ["node", "server.ts"]
