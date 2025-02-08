@@ -6,7 +6,7 @@ services:
       context: ./server
     container_name: express-api
     ports:
-      - '3000:3000'
+      - '3001:3001'
 
   influxdb:
     image: influxdb:2.7.1
@@ -43,6 +43,6 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - '3001:3001'
+      - '3003:3003'
     depends_on:
       - prometheus

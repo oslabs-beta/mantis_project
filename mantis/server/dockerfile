@@ -32,7 +32,7 @@ COPY . .
 # RUN npx tsc
 
 # # Expose port 8000 for API
-EXPOSE 3000
+EXPOSE 3001
 
 # # Start the API Gateway
 CMD ["npm", "run", "start"]

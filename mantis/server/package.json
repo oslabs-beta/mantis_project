@@ -9,8 +9,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev:server": "nodemon --exec tsx server/server.ts",
-    "start": "nodemon --exec tsx server/server.ts"
+     "dev:server": "nodemon --exec npx tsx server/server.ts",
+  "start": "nodemon --exec npx tsx server/server.ts"
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",
@@ -33,6 +33,7 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "ts-node": "^10.9.2",
+    "tsx": "4.19.2",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"

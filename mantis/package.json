@@ -1,8 +1,9 @@
 {
   "dependencies": {
+    "@influxdata/influxdb-client": "1.35.0",
     "nodemon": "^3.1.9"
   },
   "devDependencies": {
-    "tsx": "^4.19.2"
+    "tsx": "4.19.2"
   }
 }
