@@ -1,6 +1,7 @@
 import express, { ErrorRequestHandler } from "express";
 import { InfluxDB, WriteApi, Point } from "@influxdata/influxdb-client";
 import { ServerError } from "../types/types.js";
+import { updateLatencyMetrics } from "./controllers/latencyController.js";
 
 const PORT = process.env.PORT || 3001;
 const INFLUX_URL = "http://influxdb:8086";
@@ -13,25 +14,37 @@ const writeApi = influxDB.getWriteApi(ORG, BUCKET, "ns");
 
 const app = express();
 app.use(express.json());
+// in server.ts or a test route file:
 
-app.post("/track-metrics", async (req, res) => {
+app.get("/test-latency", async (req, res) => {
   try {
-    const { endpoint, latency, status } = req.body;
-
-    const point = new Point("api_performance")
-      .tag("endpoint", endpoint)
-      .floatField("latency_ms", latency)
-      .intField("status_code", status);
-
-    writeApi.writePoint(point);
-    await writeApi.flush();
-
-    res.status(200).send("Metric saved in InfluxDB");
-  } catch (error) {
-    console.error("Error writing to InfluxDB:", error);
-    res.status(500).send("Internal Server Error");
+    await updateLatencyMetrics();
+    res.send(updateLatencyMetrics());
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error");
   }
 });
+
+// Testing if DB its receving data and save it
+// app.post("/track-metrics", async (req, res) => {
+//   try {
+//     const { endpoint, latency, status } = req.body;
+
+//     const point = new Point("api_performance")
+//       .tag("endpoint", endpoint)
+//       .floatField("latency_ms", latency)
+//       .intField("status_code", status);
+
+//     writeApi.writePoint(point);
+//     await writeApi.flush();
+
+//     res.status(200).send("Metric saved in InfluxDB");
+//   } catch (error) {
+//     console.error("Error writing to InfluxDB:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 //Global error handler
 
@@ -54,3 +67,5 @@ const errorHandler: ErrorRequestHandler = (
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+export { influxDB, writeApi };
