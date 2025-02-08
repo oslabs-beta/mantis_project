@@ -18,8 +18,11 @@ app.use(express.json());
 
 app.get("/test-latency", async (req, res) => {
   try {
-    await updateLatencyMetrics();
-    res.send(updateLatencyMetrics());
+    const latency = await updateLatencyMetrics();
+    res.set("Content-Type", "text/plain"); // ✅ Required for Prometheus
+        res.send(`# HELP api_latency_ms Latency metrics for API requests\n` +
+                 `# TYPE api_latency_ms gauge\n` +
+                 `api_latency_ms ${latency}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Error");

@@ -8,9 +8,6 @@ export async function updateLatencyMetrics() {
     // Below is just a placeholder example of a PromQL query
     // that fetches your latencies for a given endpoint label.
     const prometheusUrl = 'http://prometheus:9090/api/v1/query';
-    
-    // const prometheusUrl = 'https://demo.promlabs.com'
-    // const prometheusUrl = "https://demo.promlabs.com/prometheus/api/v1/query";
     const endpointName = "get-mocking1"; // or dynamically discovered
     const query = `histogram_quantile(0.5, sum(rate(http_request_duration_seconds_bucket{endpoint="${endpointName}"}[1m])) by (le))`;
     // const query = "up";

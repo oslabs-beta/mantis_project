@@ -1,10 +1,15 @@
 {
-    "request" : {
-        "method" : "GET",
-        "url": "/testing" 
+  "request": {
+    "method": "GET",
+    "url": "/testing"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "message": "Something"
     },
-    "response": {
-        "status": 200,
-        "body": "{\"message\":\"Something\"}"
+    "headers": {
+      "Content-Type": "application/json"
     }
+  }
 }

@@ -7,8 +7,8 @@ services:
     container_name: express-api
     ports:
       - "3001:3001"
-    # depends_on:
-    #   - prometheus
+    depends_on:
+      - prometheus
 
   influxdb:
     image: influxdb:2.7.1
@@ -47,3 +47,12 @@ services:
       - "3003:3003"
     depends_on:
       - prometheus
+
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock:/home/wiremock # Mount local mock files
+    command: ["--verbose", "--root-dir", "/home/wiremock"]
