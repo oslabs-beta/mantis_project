@@ -35,4 +35,4 @@ COPY . .
 EXPOSE 3001
 
 # # Start the API Gateway
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
