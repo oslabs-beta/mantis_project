@@ -23,14 +23,16 @@ FROM node:18
 WORKDIR /app
 
 # # Copy package.json and install dependencies
-COPY package*.json ./
+COPY package.json package-lock.json ./
 RUN npm install
 
 # # Copy application files
 COPY . .
 
+# RUN npx tsc
+
 # # Expose port 8000 for API
-EXPOSE 8000
+EXPOSE 3000
 
 # # Start the API Gateway
-CMD ["node", "server.ts"]
+CMD ["npm", "run", "start"]
