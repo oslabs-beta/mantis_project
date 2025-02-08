@@ -29,8 +29,6 @@ RUN npm install
 # # Copy application files
 COPY . .
 
-# RUN npx tsc
-
 # # Expose port 8000 for API
 EXPOSE 3001
 

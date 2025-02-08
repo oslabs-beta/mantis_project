@@ -1,23 +1,10 @@
-# # example
-# global:
-#   scrape_interval: 5s  # Collect metrics every 5 seconds
-
-# scrape_configs:
-#   - job_name: "prometheus"
-#     static_configs:
-#       - targets: ["localhost:9090"]
-
-# - job_name: "express-api"
-#   static_configs:
-#     - targets: ["localhost:8000"]  # Replace with your actual backend URL
-
 global:
   scrape_interval: 5s
 
 scrape_configs:
   - job_name: 'express-api'
     static_configs:
-      - targets: ['express-api:3000']
+      - targets: ['express-api:3001']
 
   - job_name: 'influx'
     static_configs:

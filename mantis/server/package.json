@@ -9,8 +9,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev:server": "nodemon --exec npx tsx server/server.ts",
-    "start": "nodemon --exec npx tsx server/server.ts"
+    "dev:server": "nodemon --exec npx tsx server.ts",
+    "start": "nodemon --exec npx tsx server.ts"
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",
