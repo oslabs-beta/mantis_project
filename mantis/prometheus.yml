@@ -2,10 +2,14 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
   - job_name: 'express-api'
     static_configs:
       - targets: ['express-api:3001']
-    metrics_path: '/test-latency'
+    # metrics_path: '/test-latency'
 
   - job_name: 'influx'
     static_configs:

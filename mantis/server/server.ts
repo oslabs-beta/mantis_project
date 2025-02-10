@@ -3,19 +3,49 @@ import { InfluxDB, WriteApi, Point } from "@influxdata/influxdb-client";
 import { ServerError } from "../types/types.js";
 import { latencyController } from "./controllers/latencyController.js";
 import { CustomRequest } from "../types/types";
+import * as client from "prom-client";
 
 const PORT = process.env.PORT || 3001;
 const INFLUX_URL = "http://influxdb:8086";
 const INFLUX_TOKEN = "supersecret";
 const ORG = "MainOrg";
 const BUCKET = "myBucket";
-
 const influxDB = new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN });
 const writeApi = influxDB.getWriteApi(ORG, BUCKET, "ns");
 
 const app = express();
 app.use(express.json());
 // in server.ts or a test route file:
+
+const httpRequestDuration = new client.Histogram({
+  name: "http_request_duration_seconds",
+  help: "Duration of HTTP requests in seconds",
+  labelNames: ["method", "route", "status"],
+  buckets: [0.1, 0.3, 0.5, 1, 1.5, 2] // choose whatever buckets make sense
+});
+
+// // Collect default metrics, e.g. CPU, memory, etc. (optional)
+// client.collectDefaultMetrics();
+
+app.use((req, res, next) => {
+  const stopTimer = httpRequestDuration.startTimer();
+  res.on("finish", () => {
+    // For example, label with route + method + status:
+    stopTimer({
+      method: req.method,
+      route: req.route?.path || req.url, 
+      status: res.statusCode
+    });
+  });
+  next();
+});
+
+app.get("/metrics", async (_req, res) => {
+  res.set("Content-Type", client.register.contentType);
+  res.end(await client.register.metrics());
+});
+
+app.get("/p90", latencyController.p90Latency);
 
 app.get("/test-latency", latencyController.p50Latency, async (req: CustomRequest, res: Response) => {
   try {
@@ -29,7 +59,6 @@ app.get("/test-latency", latencyController.p50Latency, async (req: CustomRequest
     res.status(500).send("Error");
   }
 });
-
 // Testing if DB its receving data and save it
 // app.post("/track-metrics", async (req, res) => {
 //   try {
