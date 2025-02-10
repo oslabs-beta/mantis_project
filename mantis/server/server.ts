@@ -17,35 +17,12 @@ const app = express();
 app.use(express.json());
 // in server.ts or a test route file:
 
-// const httpRequestDuration = new client.Histogram({
-//   name: "http_request_duration_seconds",
-//   help: "Duration of HTTP requests in seconds",
-//   labelNames: ["method", "route", "status"],
-//   buckets: [0.1, 0.3, 0.5, 1, 1.5, 2] // choose whatever buckets make sense
-// });
-
 const httpRequestDuration = new client.Histogram({
   name: "http_request_duration_seconds",
   help: "Duration of HTTP requests in seconds",
   labelNames: ["method", "route", "status"],
   buckets: [0.1, 0.3, 0.5, 1, 1.5, 2], // Define the bucket intervals
 });
-
-// // Collect default metrics, e.g. CPU, memory, etc. (optional)
-// client.collectDefaultMetrics();
-
-// app.use((req, res, next) => {
-//   const stopTimer = httpRequestDuration.startTimer();
-//   res.on("finish", () => {
-//     // For example, label with route + method + status:
-//     stopTimer({
-//       method: req.method,
-//       route: req.route?.path || req.url, 
-//       status: res.statusCode
-//     });
-//   });
-//   next();
-// });
 
 app.use((req, res, next) => {
   const stopTimer = httpRequestDuration.startTimer();
