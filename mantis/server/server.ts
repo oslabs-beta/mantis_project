@@ -1,7 +1,8 @@
-import express, { ErrorRequestHandler } from "express";
+import express, { ErrorRequestHandler, Response } from "express";
 import { InfluxDB, WriteApi, Point } from "@influxdata/influxdb-client";
 import { ServerError } from "../types/types.js";
-import { updateLatencyMetrics } from "./controllers/latencyController.js";
+import { latencyController } from "./controllers/latencyController.js";
+import { CustomRequest } from "../types/types";
 
 const PORT = process.env.PORT || 3001;
 const INFLUX_URL = "http://influxdb:8086";
@@ -16,10 +17,10 @@ const app = express();
 app.use(express.json());
 // in server.ts or a test route file:
 
-app.get("/test-latency", async (req, res) => {
+app.get("/test-latency", latencyController.p50Latency, async (req: CustomRequest, res: Response) => {
   try {
-    const latency = await updateLatencyMetrics();
-    res.set("Content-Type", "text/plain"); // ✅ Required for Prometheus
+    const latency = req.latency;
+    res.set("Content-Type", "text/plain"); 
         res.send(`# HELP api_latency_ms Latency metrics for API requests\n` +
                  `# TYPE api_latency_ms gauge\n` +
                  `api_latency_ms ${latency}`);

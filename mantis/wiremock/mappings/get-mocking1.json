@@ -6,7 +6,7 @@
   "response": {
     "status": 200,
     "jsonBody": {
-      "message": "Something"
+      "latency": 130
     },
     "headers": {
       "Content-Type": "application/json"
