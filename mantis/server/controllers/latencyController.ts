@@ -89,7 +89,7 @@ export const latencyController: LatencyController = {
 
       console.log("Before check: ", data)
 
-      if (!data || data.status !== "success" || !Array.isArray(data.result) || data.result.length === 0) {
+      if (!data || data.status !== "success" || !Array.isArray(data.data.result) || data.data.result.length === 0) {
         console.warn("⚠️ No valid p90 latency data from Prometheus.");
         res.status(404).json({ message: "No latency data available" });
         return;
@@ -98,7 +98,7 @@ export const latencyController: LatencyController = {
       console.log("After check: ",data)
 
       // 2️⃣ Extract latency value
-      const firstVal = data.result[0]?.value;
+      const firstVal = data.data.result[0]?.value;
       const p90Latency = firstVal ? parseFloat(firstVal[1]) : 0;
 
       // 3️⃣ Store in InfluxDB
