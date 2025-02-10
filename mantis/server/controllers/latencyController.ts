@@ -5,73 +5,73 @@ import { Response, NextFunction } from "express";
 import { LatencyController, CustomRequest } from "../../types/types";
 
 export const latencyController: LatencyController = {
-  p50Latency: async (req: CustomRequest, res: Response, next: NextFunction) => {
-    try {
-      // 1) Query Prometheus for the latest p50, p90, p99
-      // Below is just a placeholder example of a PromQL query
-      // that fetches your latencies for a given endpoint label.
-      const prometheusUrl = "http://prometheus:9090/api/v1/query";
-      const endpointName = "get-mocking1"; // or dynamically discovered
-      // const query = `histogram_quantile(0.5, sum(rate(http_request_duration_seconds_bucket{endpoint="${endpointName}"}[1m])) by (le))`;
-      // const query = `histogram_quantile(0.5, sum((http_request_duration_seconds_bucket{endpoint="${endpointName}"}[1m])) by (le))`;
-      const query = 'sum(http_request_duration_seconds_bucket{route="/test-latency"})';
+//   p50Latency: async (req: CustomRequest, res: Response, next: NextFunction) => {
+//     try {
+//       // 1) Query Prometheus for the latest p50, p90, p99
+//       // Below is just a placeholder example of a PromQL query
+//       // that fetches your latencies for a given endpoint label.
+//       const prometheusUrl = "http://prometheus:9090/api/v1/query";
+//       const endpointName = "get-mocking1"; // or dynamically discovered
+//       // const query = `histogram_quantile(0.5, sum(rate(http_request_duration_seconds_bucket{endpoint="${endpointName}"}[1m])) by (le))`;
+//       // const query = `histogram_quantile(0.5, sum((http_request_duration_seconds_bucket{endpoint="${endpointName}"}[1m])) by (le))`;
+//       const query = 'sum(http_request_duration_seconds_bucket{route="/test-latency"})';
 
 
-      // histogram_quantile(0.5,
-      //   sum(rate(http_request_duration_seconds_bucket{route="/test-latency"}[1m]))
-      //   by (le))
+//       // histogram_quantile(0.5,
+//       //   sum(rate(http_request_duration_seconds_bucket{route="/test-latency"}[1m]))
+//       //   by (le))
 
-//       const query = `
-//   histogram_quantile(
-//     0.5,
-//     sum(rate(http_request_duration_seconds_bucket{route="/test-latency"}[1m])) by (le)
-//   )
-// `;
-      // 2) Make the request to Prometheus
-      const { data } = await axios.get(prometheusUrl, {
-        params: {
-          query: encodeURIComponent(query) // ✅ Encode the query properly
-        }
+// //       const query = `
+// //   histogram_quantile(
+// //     0.5,
+// //     sum(rate(http_request_duration_seconds_bucket{route="/test-latency"}[1m])) by (le)
+// //   )
+// // `;
+//       // 2) Make the request to Prometheus
+//       const { data } = await axios.get(prometheusUrl, {
+//         params: {
+//           query: encodeURIComponent(query) // ✅ Encode the query properly
+//         }
       
-      });
+//       });
 
-      console.log(data);
+//       console.log(data);
 
-      // 3) Extracting the data from Prometheus response
+//       // 3) Extracting the data from Prometheus response
 
-      const results = data.data.result;
+//       const results = data.data.result;
 
-      if (!Array.isArray(results) || results.length === 0) {
-        console.log("No valid data in result array.");
-        req.latency = 1;
-        return next();
-      }
+//       if (!Array.isArray(results) || results.length === 0) {
+//         console.log("No valid data in result array.");
+//         req.latency = 1;
+//         return next();
+//       }
 
-      // Let's just pick the first metric and read its value
-      const firstVal = results[0]?.value; // e.g. [1686152991.238, "1"]
-      const numericVal = parseFloat(firstVal[1]); // convert "1" to number
+//       // Let's just pick the first metric and read its value
+//       const firstVal = results[0]?.value; // e.g. [1686152991.238, "1"]
+//       const numericVal = parseFloat(firstVal[1]); // convert "1" to number
 
-      if (!firstVal || firstVal.length < 2) {
-        console.warn("Invalid latency format.");
-        req.latency = 2;
-        return next();
-      }
+//       if (!firstVal || firstVal.length < 2) {
+//         console.warn("Invalid latency format.");
+//         req.latency = 2;
+//         return next();
+//       }
 
-      // 4) Upsert into InfluxDb
-      const point = new Point("api_performance")
-        .tag("endpoint", endpointName)
-        .floatField("latency_ms", numericVal);
+//       // 4) Upsert into InfluxDb
+//       const point = new Point("api_performance")
+//         .tag("endpoint", endpointName)
+//         .floatField("latency_ms", numericVal);
 
-      writeApi.writePoint(point);
-      await writeApi.flush();
+//       writeApi.writePoint(point);
+//       await writeApi.flush();
 
-      req.latency = parseFloat(firstVal[1]);;
+//       req.latency = parseFloat(firstVal[1]);;
 
-      next();
-    } catch (err) {
-      console.error("Error updating latency metrics:", err);
-    }
-  },
+//       next();
+//     } catch (err) {
+//       console.error("Error updating latency metrics:", err);
+//     }
+//   },
 
   p90Latency: async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -86,7 +86,8 @@ export const latencyController: LatencyController = {
 
       if (!data || data.status !== "success" || !Array.isArray(data.data.result) || data.data.result.length === 0) {
         console.warn("⚠️ No valid p90 latency data from Prometheus.");
-        return res.status(404).json({ message: "No latency data available" });
+        res.status(404).json({ message: "No latency data available" });
+        return;
       }
 
       // 2️⃣ Extract latency value
@@ -110,12 +111,13 @@ export const latencyController: LatencyController = {
         unit: "ms",
         source: "Prometheus",
       });
-      
-      return next();
+
+      next();
 
     } catch (err) {
       console.error("❌ Error fetching p90 latency:", err);
-      res.status(500).json({ message: "Failed to fetch latency data" });
+      return next();
+      return;
     }
   },
   p99Latency: async (req, res, next) => {},

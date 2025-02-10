@@ -17,25 +17,40 @@ const app = express();
 app.use(express.json());
 // in server.ts or a test route file:
 
+// const httpRequestDuration = new client.Histogram({
+//   name: "http_request_duration_seconds",
+//   help: "Duration of HTTP requests in seconds",
+//   labelNames: ["method", "route", "status"],
+//   buckets: [0.1, 0.3, 0.5, 1, 1.5, 2] // choose whatever buckets make sense
+// });
+
 const httpRequestDuration = new client.Histogram({
   name: "http_request_duration_seconds",
   help: "Duration of HTTP requests in seconds",
   labelNames: ["method", "route", "status"],
-  buckets: [0.1, 0.3, 0.5, 1, 1.5, 2] // choose whatever buckets make sense
+  buckets: [0.1, 0.3, 0.5, 1, 1.5, 2], // Define the bucket intervals
 });
 
 // // Collect default metrics, e.g. CPU, memory, etc. (optional)
 // client.collectDefaultMetrics();
 
+// app.use((req, res, next) => {
+//   const stopTimer = httpRequestDuration.startTimer();
+//   res.on("finish", () => {
+//     // For example, label with route + method + status:
+//     stopTimer({
+//       method: req.method,
+//       route: req.route?.path || req.url, 
+//       status: res.statusCode
+//     });
+//   });
+//   next();
+// });
+
 app.use((req, res, next) => {
   const stopTimer = httpRequestDuration.startTimer();
   res.on("finish", () => {
-    // For example, label with route + method + status:
-    stopTimer({
-      method: req.method,
-      route: req.route?.path || req.url, 
-      status: res.statusCode
-    });
+    stopTimer({ method: req.method, route: req.route?.path || req.url, status: res.statusCode });
   });
   next();
 });
@@ -47,18 +62,18 @@ app.get("/metrics", async (_req, res) => {
 
 app.get("/p90", latencyController.p90Latency);
 
-app.get("/test-latency", latencyController.p50Latency, async (req: CustomRequest, res: Response) => {
-  try {
-    const latency = req.latency;
-    res.set("Content-Type", "text/plain"); 
-        res.send(`# HELP api_latency_ms Latency metrics for API requests\n` +
-                 `# TYPE api_latency_ms gauge\n` +
-                 `api_latency_ms ${latency}`);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error");
-  }
-});
+// app.get("/test-latency", latencyController.p50Latency, async (req: CustomRequest, res: Response) => {
+//   try {
+//     const latency = req.latency;
+//     res.set("Content-Type", "text/plain"); 
+//         res.send(`# HELP api_latency_ms Latency metrics for API requests\n` +
+//                  `# TYPE api_latency_ms gauge\n` +
+//                  `api_latency_ms ${latency}`);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error");
+//   }
+// });
 // Testing if DB its receving data and save it
 // app.post("/track-metrics", async (req, res) => {
 //   try {
