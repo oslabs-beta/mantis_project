@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/testing"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "latency": 130
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

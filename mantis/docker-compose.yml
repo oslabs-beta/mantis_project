@@ -1,0 +1,73 @@
+version: "3"
+
+services:
+  express-api:
+    build:
+      context: ./server
+    container_name: express-api
+    ports:
+      - "3001:3001"
+    depends_on:
+      - prometheus
+      - influxdb
+    environment:
+      - INFLUX_URL=http://influxdb:8086
+      - INFLUX_TOKEN=supersecret
+      - ORG=MainOrg
+      - BUCKET=myBucket
+
+  influxdb:
+    image: influxdb:2.7.1
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: supersecret
+      DOCKER_INFLUXDB_INIT_ORG: MainOrg
+      DOCKER_INFLUXDB_INIT_BUCKET: myBucket
+      DOCKER_INFLUXDB_INIT_RETENTION: 30d
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: supersecret
+    volumes:
+      - ./influx_data:/var/lib/influxdb2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock:/home/wiremock # Mount local mock files
+    command: ["--verbose", "--root-dir", "/home/wiremock"]
+
+  k6:
+    image: grafana/k6
+    container_name: k6
+    depends_on:
+      - express-api
+    volumes:
+      - ./loadMocking:/scripts
+    command: ["run", "/scripts/k6.ts"]
+  
