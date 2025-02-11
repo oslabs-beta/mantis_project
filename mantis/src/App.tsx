@@ -1,4 +1,3 @@
-
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home.tsx';
 import Dashboard from './components/Dashboard.tsx';
