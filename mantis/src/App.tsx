@@ -3,12 +3,6 @@ import Home from './components/Home.tsx';
 import Dashboard from './components/Dashboard.tsx';
 // import Documentation from './components/Documentation.tsx';
 import DropdownMenu from './components/DropdownMenu.tsx';
-import { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Home from './components/Home.tsx';
-import Dashboard from './components/Dashboard.tsx';
-// import Documentation from './components/Documentation.tsx';
-import DropdownMenu from './components/DropdownMenu.tsx';
 
 function App() {
   return (
