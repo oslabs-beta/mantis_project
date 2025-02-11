@@ -7,6 +7,6 @@ export let options = {
 };
 
 export default function () {
-  http.get("http://express-api:3001/p90");
+  http.get("http://express-api:3001/rps");
   sleep(1);
 }

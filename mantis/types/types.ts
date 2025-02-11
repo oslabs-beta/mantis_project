@@ -12,6 +12,11 @@ export interface LatencyController {
   p99Latency: (req: any, res: any, next: any) => Promise<void>;
 }
 
+export interface TrafficController {
+  rps: (req: any, res: any, next: any) => Promise<void>;
+  trafficEndpoint: (req: any, res: any, next: any) => Promise<void>;
+}
+
 export interface CustomRequest extends Request {
   latency?: number; // Make it optional to prevent errors
 }

@@ -1,8 +1,7 @@
 import express, { ErrorRequestHandler, Response } from "express";
 import { InfluxDB, WriteApi, Point } from "@influxdata/influxdb-client";
 import { ServerError } from "../types/types.js";
-import { latencyController } from "./controllers/latencyController.js";
-import { CustomRequest } from "../types/types";
+import { trafficController } from "./controllers/trafficController.js";
 import * as client from "prom-client";
 
 const PORT = process.env.PORT || 3001;
@@ -37,39 +36,8 @@ app.get("/metrics", async (_req, res) => {
   res.end(await client.register.metrics());
 });
 
-app.get("/p90", latencyController.p90Latency);
+app.get("/rps", trafficController.rps);
 
-// app.get("/test-latency", latencyController.p50Latency, async (req: CustomRequest, res: Response) => {
-//   try {
-//     const latency = req.latency;
-//     res.set("Content-Type", "text/plain"); 
-//         res.send(`# HELP api_latency_ms Latency metrics for API requests\n` +
-//                  `# TYPE api_latency_ms gauge\n` +
-//                  `api_latency_ms ${latency}`);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Error");
-//   }
-// });
-// Testing if DB its receving data and save it
-// app.post("/track-metrics", async (req, res) => {
-//   try {
-//     const { endpoint, latency, status } = req.body;
-
-//     const point = new Point("api_performance")
-//       .tag("endpoint", endpoint)
-//       .floatField("latency_ms", latency)
-//       .intField("status_code", status);
-
-//     writeApi.writePoint(point);
-//     await writeApi.flush();
-
-//     res.status(200).send("Metric saved in InfluxDB");
-//   } catch (error) {
-//     console.error("Error writing to InfluxDB:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
 
 //Global error handler
 
