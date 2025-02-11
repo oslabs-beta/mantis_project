@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import Buttons from '.Buttons';
+import Buttons from './Buttons';
 
 const Dashboard: React.FC = () => {
   const [viewType, setViewType] = useState('overview');
