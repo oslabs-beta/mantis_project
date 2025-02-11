@@ -31,6 +31,7 @@ export const trafficController: TrafficController = {
       }
 
       console.log("After check: ",data)
+      console.log('branch')
 
       // 2️⃣ Extract latency value
       const firstVal = data.data.result[0]?.value;
