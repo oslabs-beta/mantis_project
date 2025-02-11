@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
   const grafanaUrl =
     viewType === 'overview'
       ? `http://localhost:3000/d-solo/fecp0c24oog74b/data-from-database?orgId=1&timezone=browser&panelId=1&__feature.dashboardSceneSolo`
-      : ``;
+      : `http://localhost:3000/d-solo/fecp0c24oog74b/data-from-database?orgId=1&timezone=browser&panelId=1&__feature.dashboardSceneSolo`;
   return (
     <div>
       <h1>Dashboard</h1>
