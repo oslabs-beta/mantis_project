@@ -4,6 +4,12 @@ import Home from './components/Home.tsx';
 import Dashboard from './components/Dashboard.tsx';
 // import Documentation from './components/Documentation.tsx';
 import DropdownMenu from './components/DropdownMenu.tsx';
+import { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Home from './components/Home.tsx';
+import Dashboard from './components/Dashboard.tsx';
+// import Documentation from './components/Documentation.tsx';
+import DropdownMenu from './components/DropdownMenu.tsx';
 
 function App() {
   return (
@@ -12,7 +18,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        {/*<Route path='/documentation' elem ent={<Documentation />} /> */}
+        {/*<Route path='/documentation' element={<Documentation />} /> */}
       </Routes>
     </div>
   );
