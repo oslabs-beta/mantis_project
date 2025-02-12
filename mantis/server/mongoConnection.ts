@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://dcarschmit:tVylr0QkTk8dVgvq@mantis.o6zda.mongodb.net/";
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://dcarschmit:tVylr0QkTk8dVgvq@mantis.o6zda.mongodb.net/?retryWrites=true&w=majority&appName=Mantis";
 
 const connectDB = async () => {
   try {

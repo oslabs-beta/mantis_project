@@ -38,6 +38,8 @@ app.get("/rps", trafficController.rps);
 app.post("/create-user", userController.createNewUser);
 app.post("/login", userController.loginUser);
 
+console.log("app._router.stack", app.stack)
+
 //Global error handler
 
 const errorHandler: ErrorRequestHandler = (

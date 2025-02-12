@@ -16,21 +16,77 @@
 
 #Example
 
-# # Use Node.js base image
+# # # Use Node.js base image
+# FROM node:18
+
+# # # Set working directory inside the container
+# WORKDIR /app
+
+# # # Copy package.json and install dependencies
+# COPY package.json package-lock.json ./
+# RUN npm install
+
+# # # Copy application files
+# COPY . .
+
+# # # Expose port 8000 for API
+# EXPOSE 3001
+
+# # # Start the API Gateway
+# CMD ["npm", "run", "dev"]
+
+
+# FROM node:18
+
+# WORKDIR /app
+
+# # Copy package and lock
+# COPY package.json package-lock.json ./
+# RUN npm install
+
+# # Copy the rest
+# COPY tsconfig.json ./
+# COPY src ./src
+# COPY types ./types
+
+# # 1) Build the TypeScript
+# RUN npm run build  # <-- e.g. "tsc" or "tsc && some-other-step"
+
+# # 2) Expose the port you listen on (3001 in your code)
+# EXPOSE 3001
+
+# # 3) Run the built JS
+# CMD ["node", "dist/server.js"]
+
+# 1) Use a Node 18 base image
 FROM node:18
 
-# # Set working directory inside the container
+# 2) Set working directory
 WORKDIR /app
 
-# # Copy package.json and install dependencies
+# 3) Copy package files and install dependencies
 COPY package.json package-lock.json ./
 RUN npm install
 
-# # Copy application files
-COPY . .
+# 4) Copy the rest of the source into the container
+COPY tsconfig.json ./
+COPY tsconfig.node.json ./
+COPY server ./server
+COPY src ./src
+COPY types ./types
 
-# # Expose port 8000 for API
+# 5) Build TypeScript (creates "dist/" folder)
+# RUN npm run build
+RUN npm run build:client && npm run build:server
+
+
+# 6) Expose the port your server listens on
 EXPOSE 3001
 
-# # Start the API Gateway
-CMD ["npm", "run", "dev"]
+# 7) Launch the compiled server
+# CMD ["node", "dist/server.js"]
+CMD ["npm", "start"]
+
+
+
+

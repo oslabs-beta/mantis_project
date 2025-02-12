@@ -4,17 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run dev:client",
-    "dev:client": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "dev:server": "nodemon --exec npx tsx server/server.ts",
-    "start": "nodemon --exec npx tsx server/server.ts"
-  },
+
+      "scripts": {
+        "build:client": "vite build",
+        "build:server": "tsc --outDir dist --project tsconfig.server.json",
+        "build": "npm run build:client && npm run build:server",
+        "dev:client": "vite",
+        "dev:server": "nodemon --exec npx tsx server/server.ts",
+        "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+        "start": "node dist/server.js",
+        "lint": "eslint .",
+        "preview": "vite preview"
+      }
+    }    
+  ,
   "dependencies": {
     "@influxdata/influxdb-client": "1.35.0",
-    "@influxdata/influxdb-client-apis": "1.35.0",
+    "@influxdata/influxdb-client-apis": "^1.35.0",
     "@tailwindcss/vite": "4.0.6",
     "axios": "^1.7.9",
     "bcrypt": "5.1.1",

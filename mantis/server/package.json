@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "build:client": "vite build",
+    "build:server": "tsc --outDir dist --project tsconfig.server.json",
+    "build": "npm run build:client && npm run build:server",
     "dev:client": "vite",
-    "build": "vite build",
+    "dev:server": "nodemon --exec npx tsx server/server.ts",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "start": "node dist/server.js",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "dev:server": "nodemon --exec npx tsx server.ts",
-    "start": "nodemon --exec npx tsx server.ts"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",

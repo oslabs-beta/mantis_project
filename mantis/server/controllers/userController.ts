@@ -5,8 +5,8 @@ import {
   OrgsAPI,
   BucketsAPI,
   AuthorizationsAPI,
-  PostBucketsRequest,
-  PostAuthorizationsRequest,
+  PostBucketRequest,
+  AuthorizationPostRequest,
 } from "@influxdata/influxdb-client-apis";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -43,28 +43,32 @@ export const userController: UserController = {
         return res.status(400).json({ error: "User already exists." });
       }
 
-      const createUserReq: PostUsersRequest = { name: username };
-      const createdUser = await usersApi.postUsers(createUserReq);
-      console.log("Influx created user:", createdUser);
+      // // const createUserReq: PostUsersRequest = { name: username };
+      // // const createdUser = await usersApi.postUsers(createUserReq);
+      // const createUserReq = { name: username } as any;
+      // const createdUser = await usersApi.postUsers({ body: createUserReq });
 
-      // 3. Optional: set a password for them in Influx so they can log in to UI
-      // If you don't care about password-based UI logins, skip.
-      await usersApi.postUsersIDPassword({
-        userID: createdUser.id,
-        body: { password },
-      });
+      // console.log("Influx created user:", createdUser);
+
+      // // 3. Optional: set a password for them in Influx so they can log in to UI
+      // // If you don't care about password-based UI logins, skip.
+      // await usersApi.postUsersIDPassword({
+      //   userID: createdUser.id as string,
+      //   body: { password: password as string },
+      // });
 
       const orgID = ORG_ID;
 
       // 4. Create a new bucket for this user (optional step).
       // If you want each user to have a personal bucket, do so:
       const bucketName = `bucket_${username}`;
-      const createBucketReq: PostBucketsRequest = {
+      const createBucketReq: PostBucketRequest = {
         orgID,
         name: bucketName,
         retentionRules: [],
       };
-      const createdBucket = await bucketsApi.postBuckets(createBucketReq);
+      const createdBucket = await bucketsApi.postBuckets({ body: createBucketReq });
+
       console.log("Created bucket:", createdBucket);
 
       const permissions = [
@@ -78,12 +82,14 @@ export const userController: UserController = {
         },
       ];
 
-      const createAuthReq: PostAuthorizationsRequest = {
+      const createAuthReq: AuthorizationPostRequest = {
         orgID,
-        userID: createdUser.id,
+        description: "User token for " + username,
+        // userID: createdUser.id,
         permissions,
       };
-      const newAuth = await authApi.postAuthorizations(createAuthReq);
+      const newAuth = await authApi.postAuthorizations({ body: createAuthReq });
+
       console.log("Created authorization:", newAuth);
 
       const userToken = newAuth.token;
@@ -91,7 +97,7 @@ export const userController: UserController = {
       const user: IUser = new User({
         username,
         password,
-        userToken,
+        influxToken: userToken,
         bucket: bucketName,
       });
       await user.save();
@@ -139,9 +145,9 @@ export const userController: UserController = {
       return res.status(200).json({
         message: "Logged in successfully",
         token,
-        // We could return the user’s Influx token as well,
+        // We could return the user's Influx token as well,
         // if we want them to write data from the client side.
-        // But typically you’d keep it server-side to do writes on their behalf.
+        // But typically you'd keep it server-side to do writes on their behalf.
       });
     } catch (error) {
       console.error("Error logging user in:", error);
