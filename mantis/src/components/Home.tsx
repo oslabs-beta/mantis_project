@@ -49,6 +49,7 @@ const Home: React.FC = () => {
           src='http://localhost:3000/d-solo/becs3ua4k0xz4b/new-dashboard?orgId=1&timezone=browser&panelId=1&__feature.dashboardSceneSolo'
           width='450'
           height='200'
+          frameBorder='0'
         ></iframe>
       </div>
     </div>
