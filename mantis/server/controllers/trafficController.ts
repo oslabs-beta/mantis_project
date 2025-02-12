@@ -2,17 +2,21 @@ import axios from "axios";
 import { Point, InfluxDB } from "@influxdata/influxdb-client";
 import { influxDB } from "../controllers/userController";
 import { Response, NextFunction } from "express";
-import { TrafficController } from "../types/types";
+import { AuthenticatedRequest, TrafficController } from "../types/types";
 import User from "../models/userModel";
 
 export const trafficController: TrafficController = {
-  rps: async (req: Request, res: Response, next: NextFunction) => {
+  rps: async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     console.log("RPS method in latency controller trigger");
 
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Unauthorized: No user found" });
+      }
       // 1️⃣ Retrieve the username from the request body
       // (If you prefer JWT-based auth, see the note below)
-      const { username } = req.body;
+      const { username } = req.user;
+      
       if (!username) {
         return res
           .status(400)

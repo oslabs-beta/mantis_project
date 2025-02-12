@@ -29,3 +29,7 @@ export interface IUser extends Document {
   influxToken: string;
   bucket: string;
 }
+
+export interface AuthenticatedRequest extends Request {
+  user?: IUser;
+}
