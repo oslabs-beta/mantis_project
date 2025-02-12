@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.35.0",
+    "@influxdata/influxdb-client-apis": "1.35.0",
     "axios": "^1.7.9",
+    "bcryptjs": "2.4.3",
     "concurrently": "9.1.2",
     "express": "^4.21.2",
     "influxdb": "^0.0.1",

@@ -1,6 +1,7 @@
 import express, { ErrorRequestHandler, Response } from "express";
 import { ServerError } from "./types/types.js";
 import { trafficController } from "./controllers/trafficController.ts";
+import { authMiddleware } from "./middleware/authMiddleware.ts";
 import { userController} from "./controllers/userController.ts";
 import * as client from "prom-client";
 import connectDB from "./mongoConnection.ts";
@@ -34,7 +35,7 @@ app.get("/metrics", async (_req, res) => {
   res.end(await client.register.metrics());
 });
 
-app.get("/rps", trafficController.rps);
+app.get("/rps", authMiddleware, trafficController.rps);
 app.post("/create-user", userController.createNewUser);
 app.post("/login", userController.loginUser);
 

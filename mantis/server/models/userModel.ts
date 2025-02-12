@@ -1,6 +1,6 @@
 import { IUser } from "../types/types";
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const SALT_WORK_FACTOR = 10;
 
