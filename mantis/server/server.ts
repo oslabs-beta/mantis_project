@@ -1,20 +1,14 @@
 import express, { ErrorRequestHandler, Response } from "express";
-import { InfluxDB, WriteApi, Point } from "@influxdata/influxdb-client";
-import { ServerError } from "../types/types.js";
-import { trafficController } from "./controllers/trafficController.js";
+import { ServerError } from "./types/types.js";
+import { trafficController } from "./controllers/trafficController.ts";
+import { userController} from "./controllers/userController.ts";
 import * as client from "prom-client";
-
+import connectDB from "./mongoConnection.ts";
 const PORT = process.env.PORT || 3001;
-const INFLUX_URL = "http://influxdb:8086";
-const INFLUX_TOKEN = "supersecret";
-const ORG = "MainOrg";
-const BUCKET = "myBucket";
-const influxDB = new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN });
-const writeApi = influxDB.getWriteApi(ORG, BUCKET, "ns");
 
 const app = express();
 app.use(express.json());
-// in server.ts or a test route file:
+connectDB();
 
 const httpRequestDuration = new client.Histogram({
   name: "http_request_duration_seconds",
@@ -26,7 +20,11 @@ const httpRequestDuration = new client.Histogram({
 app.use((req, res, next) => {
   const stopTimer = httpRequestDuration.startTimer();
   res.on("finish", () => {
-    stopTimer({ method: req.method, route: req.route?.path || req.url, status: res.statusCode });
+    stopTimer({
+      method: req.method,
+      route: req.route?.path || req.url,
+      status: res.statusCode,
+    });
   });
   next();
 });
@@ -37,7 +35,8 @@ app.get("/metrics", async (_req, res) => {
 });
 
 app.get("/rps", trafficController.rps);
-
+app.post("/create-user", userController.createNewUser);
+app.post("/login", userController.loginUser);
 
 //Global error handler
 
@@ -60,5 +59,3 @@ const errorHandler: ErrorRequestHandler = (
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
-export { influxDB, writeApi };
