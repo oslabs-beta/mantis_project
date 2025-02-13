@@ -68,6 +68,8 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+    volumes:
+      - ./grafana_data:/var/lib/grafana
 
   wiremock:
     image: wiremock/wiremock:latest
@@ -75,7 +77,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./wiremock:/home/wiremock # Mount local mock files
+      - ./wiremock:/home/wiremock 
     command: ["--verbose", "--root-dir", "/home/wiremock"]
 
   k6:
