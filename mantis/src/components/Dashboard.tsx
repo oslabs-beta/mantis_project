@@ -12,7 +12,10 @@ const Dashboard: React.FC = () => {
     { label: 'P50' },
     { label: 'P90' },
     { label: 'P99' },
-    { label: 'Error Rate' },
+    { label: 'Error Rate 500' },
+    { label: 'Error Rate 400' },
+    { label: 'Requests per second' },
+    { label: 'Traffic per endpoint' },
   ];
 
   // handle the tab change
@@ -37,8 +40,10 @@ const Dashboard: React.FC = () => {
   // }?orgId=1&timezone=browser&panelId=1&__feature.dashboardSceneSolo`;
   const grafanaUrl = `http://localhost:3000/d-solo/${
     viewType === 'overview'
-      ? 'fecp0c24oog74b/data-from-database'
-      : 'fecp0c24oog74b/data-from-database'
+      ? // url for overview
+        'fecp0c24oog74b/data-from-database'
+      : // url for other data
+        'fecp0c24oog74b/data-from-database'
   }?orgId=1&timezone=browser&panelId=${
     activeTab + 1
   }&from=${timeFrame}&to=${timeFrame}&queryType=${queryType}&__feature.dashboardSceneSolo`;

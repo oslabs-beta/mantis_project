@@ -32,12 +32,16 @@ const Home: React.FC = () => {
         >
           MANTIS
         </h1>
+        <div>
+          <Login />
+        </div>
+
         <p
           className='text-[#FDF7BF]'
           style={{
             fontFamily: '"IBM Plex Serif", sans-serif',
             position: 'absolute',
-            top: 'calc(100% + 37vh)',
+            top: 'calc(100% + 30vh)',
             fontSize: '1vw',
             width: '100%',
             textAlign: 'center',
@@ -45,12 +49,6 @@ const Home: React.FC = () => {
         >
           Fast and precise Microservice metrics tracker
         </p>
-        <iframe
-          src='http://localhost:3000/d-solo/becs3ua4k0xz4b/new-dashboard?orgId=1&timezone=browser&panelId=1&__feature.dashboardSceneSolo'
-          width='450'
-          height='200'
-          frameBorder='0'
-        ></iframe>
       </div>
     </div>
   );
