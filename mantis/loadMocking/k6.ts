@@ -10,3 +10,5 @@ export default function () {
   http.get("http://express-api:3001/rps");
   sleep(1);
 }
+
+console.log('grafana branch')
