@@ -12,9 +12,9 @@ app.use(express.json());
 connectDB();
 
 const httpRequestDuration = new client.Histogram({
-  name: "http_request_duration_seconds",
-  help: "Duration of HTTP requests in seconds",
-  labelNames: ["method", "route", "status"],
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'status'],
   buckets: [0.1, 0.3, 0.5, 1, 1.5, 2], // Define the bucket intervals
 });
 
@@ -30,8 +30,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/metrics", async (_req, res) => {
-  res.set("Content-Type", client.register.contentType);
+app.get('/metrics', async (_req, res) => {
+  res.set('Content-Type', client.register.contentType);
   res.end(await client.register.metrics());
 });
 
@@ -48,9 +48,9 @@ const errorHandler: ErrorRequestHandler = (
   _next
 ) => {
   const defaultErr: ServerError = {
-    log: "Express error handler caught unknown middleware error",
+    log: 'Express error handler caught unknown middleware error',
     status: 500,
-    message: { err: "An error occurred" },
+    message: { err: 'An error occurred' },
   };
   const errorObj: ServerError = { ...defaultErr, ...err };
   console.log(errorObj.log);

@@ -13,9 +13,12 @@
     "start": "nodemon --exec npx tsx server/server.ts"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@influxdata/influxdb-client": "1.35.0",
     "@influxdata/influxdb-client-apis": "1.35.0",
-    "@tailwindcss/vite": "4.0.6",
+    "@mui/material": "^6.4.4",
+    "@tailwindcss/vite": "^4.0.5",
     "axios": "^1.7.9",
     "bcrypt": "5.1.1",
     "bcryptjs": "2.4.3",

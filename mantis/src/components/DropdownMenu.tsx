@@ -14,6 +14,15 @@ const DropdownMenu: React.FC = () => {
     // div
     <div className='dropdown-container text-white fixed top-4 right-4 z-20'>
       <div onClick={toggleDropdown} className='dropdown-button'>
+        <h1
+          className='ml-3'
+          style={{
+            fontFamily: '"Faustina", sans-serif',
+            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.8)',
+          }}
+        >
+          Menu
+        </h1>
         <img src={dropdownButton} alt='Menu Button' className='w-15 h-15' />
       </div>
 
