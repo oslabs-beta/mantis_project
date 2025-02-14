@@ -8,7 +8,7 @@ import User from "../models/userModel";
 export const trafficController: TrafficController = {
   rps: async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     console.log("RPS method in latency controller trigger");
-
+// Axios need to be review
     try {
       if (!req.user) {
         return res.status(401).json({ error: "Unauthorized: No user found" });
@@ -34,7 +34,7 @@ export const trafficController: TrafficController = {
       console.log("Fetching metrics from Prometheus for user:", username);
       // 3️⃣ Query Prometheus for RPS
       const prometheusUrl = "http://prometheus:9090/api/v1/query";
-      const query = "http_api_request_duration_seconds_bucket";
+      const query = "http_api_requests_total";
 
       const { data } = await axios.get(prometheusUrl, {
         timeout: 5000,
