@@ -9,7 +9,13 @@ import Logo from '../assets/logo.png';
 
 const Home: React.FC = () => {
   return (
-    <div className='home-container p-4 relative h-full w-full flex items-center justify-center'>
+    <div
+      className='home-container p-4 relative h-full w-full flex items-center justify-center'
+      style={{
+        fontFamily: '"IBM Plex Serif", sans-serif',
+      }}
+    >
+      {/* Background image */}
       <div
         className='absolute inset-0 bg-center bg-no-repeat w-full h-full z-0'
         style={{
@@ -20,12 +26,12 @@ const Home: React.FC = () => {
           maxHeight: '100%',
         }}
       />
-      <div className='absolute z-10 items-center text-center w-full'>
+      <div className='absolute z-10 items-center text-center w-full top-80'>
         <h1
           className='font-bold tracking-[2.3rem] text-emerald-950'
           style={{
             fontFamily: '"Faustina", sans-serif',
-            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.8)',
+            textShadow: '2px 2px 5px rgba(0, 0, 0, 1.5)',
             fontSize: '5vw',
             transform: 'translateX(20px)',
           }}
@@ -33,22 +39,38 @@ const Home: React.FC = () => {
           MANTIS
         </h1>
         <p
-          className='text-[#FDF7BF]'
+          className='font-bold tracking-wide text-emerald-950'
           style={{
-            fontFamily: '"IBM Plex Serif", sans-serif',
+            fontFamily: '"Faustina", sans-serif',
+            textShadow: '2px 2px 5px rgba(255, 255, 255, 1.5)',
+            fontSize: '1.2vw',
+          }}
+        >
+          Fast and precise microservice metrics tracker
+        </p>
+        <div className='relative top-7'>
+          <Login />
+        </div>
+
+        <p
+          className='text-[#FDF7BF] tracking-[0.2rem]'
+          style={{
+            fontFamily: '"Faustina", sans-serif',
             position: 'absolute',
-            top: 'calc(100% + 37vh)',
-            fontSize: '1vw',
+            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.8)',
+            top: 'calc(100% + 8vh)',
+            fontSize: '1.2vw',
             width: '100%',
             textAlign: 'center',
           }}
         >
-          Fast and precise Microservice metrics tracker
+          Spread your wings and try Mantis today
         </p>
-        <iframe src="http://localhost:3000/d-solo/becs3ua4k0xz4b/new-dashboard?orgId=1&timezone=browser&panelId=1&__feature.dashboardSceneSolo" width="450" height="200" ></iframe>
       </div>
     </div>
   );
 };
 
 export default Home;
+
+//IBM Plex Serif
