@@ -1,0 +1,64 @@
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "manifestVersion": "2.0.0",
+  "signatureType": "grafana",
+  "signedByOrg": "grafana",
+  "signedByOrgName": "Grafana Labs",
+  "plugin": "grafana-pyroscope-app",
+  "version": "0.1.22",
+  "time": 1739444493809,
+  "keyId": "7e4d0c6a708866e7",
+  "files": {
+    "608.js.map": "548edbe49239552c779caeee36a3c1676998fa830ef6f6bad39ca0a586f766c0",
+    "module.js": "c4b9a18922ba0d9513c8f06062418918d66fd4391fa9434095ec0d49355403a0",
+    "module.js.LICENSE.txt": "0960d362c3bc2aea3e541a27e82360d2e7c208834be767ecfbd61735fa9cf758",
+    "373.js": "9795d6ebaa9ad1bcbadb761a00a8fe689dedf94fd4a3c216502128258bd26a58",
+    "LICENSE": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+    "e79edcfbe2068fae2364.svg": "89ea40b6dcf2dc8dfe146f8acac42b604e4d3c3dad03e539551d58a21f80654d",
+    "plugin.json": "1806aedb7351d340c37eebf8c2904c95daca69ad2ab26a45922fa15ef9ac5da0",
+    "pages/ProfilesExplorerView/components/SceneByVariableRepeaterGrid/components/SceneEmptyState/ui/img/grot-404-dark.svg": "a0c8acbcf5685a8950ce1c67722579dc745585fb0d668ce965327955e5e829ff",
+    "pages/ProfilesExplorerView/components/SceneByVariableRepeaterGrid/components/SceneEmptyState/ui/img/grot-404-light.svg": "89ea40b6dcf2dc8dfe146f8acac42b604e4d3c3dad03e539551d58a21f80654d",
+    "e6c722427cfa8715e19d.svg": "559341996765c2d5639a2818d76bcd88ffe252212193a573f2f9f77dae5064dd",
+    "img/9c9cdd5175734d579007.png": "ab65c374d22c5faad274f6b8b2ab00bf404bb988803f09d375326cd692fce821",
+    "img/hero-image-explore-profiles.png": "f5547850eef896ca6cc10b0c30e46f2db0ff8922dfb4b49d35b808bc9858403f",
+    "img/0324b23e949528cbda73.png": "f5547850eef896ca6cc10b0c30e46f2db0ff8922dfb4b49d35b808bc9858403f",
+    "img/resolve-incidents.png": "66d5311c4ca898cdae2d0a23a414f04a7c49052f0035c1a2906b9e9bb15d628d",
+    "img/bafee50693eb02088442.png": "66d5311c4ca898cdae2d0a23a414f04a7c49052f0035c1a2906b9e9bb15d628d",
+    "img/decrease-latency.png": "f626933745990d2fef3d90e995f38d5e28e4754c002cf031379db7588c8fd70c",
+    "img/diff-view-how-to.gif": "72afdd2fcad33e13db33af765a3fae9528315d78391684190dd23e40bd688852",
+    "img/reduce-costs.png": "ab65c374d22c5faad274f6b8b2ab00bf404bb988803f09d375326cd692fce821",
+    "img/hero-image.png": "8d45196a0c2711f1f4b821c78b8290d1105ba0d2f152661f561bdc74753ffa78",
+    "img/61b4cf746a6f58780f27.png": "f626933745990d2fef3d90e995f38d5e28e4754c002cf031379db7588c8fd70c",
+    "img/logo.svg": "559341996765c2d5639a2818d76bcd88ffe252212193a573f2f9f77dae5064dd",
+    "img/3e820d7b934ac6c337fc.png": "8d45196a0c2711f1f4b821c78b8290d1105ba0d2f152661f561bdc74753ffa78",
+    "img/8cdf4d2e2df8326311ab.gif": "72afdd2fcad33e13db33af765a3fae9528315d78391684190dd23e40bd688852",
+    "CHANGELOG.md": "b39ecd7a562618bf94b4f3a7488ca5ab1bfc298daffa77c0349fe4fc8f7434fd",
+    "702.js.map": "578633041fabac1a517ec1a92deddafc190276a3857ccee1d6ce05f50714ffc0",
+    "75.js.map": "bfeb735a1107ff0afab447f721fa057a93cf550bc00f58356c405d31aae5120c",
+    "944c737f589d02ecf603.svg": "a0c8acbcf5685a8950ce1c67722579dc745585fb0d668ce965327955e5e829ff",
+    "75.js": "81f2cd5823deab0ca22b11c6041d252c2fd52b9a1e5ba811117112c983036d1f",
+    "755.js.LICENSE.txt": "0d8f66cd4afb566cb5b7e1540c68f43b939d3eba12ace290f18abc4f4cb53ed0",
+    "755.js": "f18f3c7d2540d5b214d7de9c94024b31b3014f6be047206c851cbc14c1963c0b",
+    "608.js": "85320bd009b6ad56b5483e7b16c23011150345980151e0f9a2f8990ba1b83ae3",
+    "702.js": "1ec9845f7ebfd420dff7f46dd59680b36b1171adda4c20a874866adc20f2e086",
+    "module.js.map": "edea870544a32e4a297a1dcc8a1b8fe21e992265afc5338ce46b51f48e5455a6",
+    "373.js.map": "88db5ce7568682df9736410424223a2501a6000199b170c51581b1404ea22a2b",
+    "shared/infrastructure/profile-metrics/profile-metrics.json": "0a3a345a365e72f4278d3a76d5739600483bed8f374ddc1c2af85029057b8d07",
+    "755.js.map": "e8850a35b5051c5ed0aee03868ba94e95ff067c4d68809bf53848123d4654b08",
+    "README.md": "609adc2929e463b206538aa3bc146f6cdd6b387f98e65e770e2a4b15133822d3"
+  }
+}
+-----BEGIN PGP SIGNATURE-----
+Version: OpenPGP.js v4.10.11
+Comment: https://openpgpjs.org
+
+wrkEARMKAAYFAmet0Q0AIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm56epAgkANtzATI1z01LCmmUgQBPFX/QTNg1B/2VFjzAqsJIFQTYOIAcn
+BEqdJkOnO/HXih5Tj+M1cyy2krYvcXRXxDXa608CCQEaGPPvJuihaHiTGeID
+1jlkKidPDiiCOY/6JchxOjUu0V3XsU7/UNVuo0KdLqQIYYl6CkuJJ2dJ1E8q
+CAyndMfJYg==
+=mSbu
+-----END PGP SIGNATURE-----
