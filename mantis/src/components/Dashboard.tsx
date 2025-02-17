@@ -56,9 +56,7 @@ const Dashboard: React.FC = () => {
           textShadow: '2px 2px 5px rgba(255, 255, 255, 0.6)',
           fontSize: '3vw',
         }}
-      >
-        METRICS
-      </h1>
+      >      </h1>
       <Tabs
         tabs={tabData}
         activeTab={activeTab}
