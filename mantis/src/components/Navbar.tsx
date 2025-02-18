@@ -19,11 +19,19 @@ const NavBar: React.FC = () => {
             Mantis
           </span>
         </Link>
-        {/* Right side - additional links */}
-        <div className="flex space-x-4">
+        {/* Right side - GitHub, Dashboard and Login */}
+        <div className="flex space-x-4 items-center">
+          <a
+            href="https://github.com/oslabs-beta/mantis_project"
+            target="_blank"
+            rel="noreferrer"
+            className="text-white hover:text-gray-300 transition-colors"
+          >
+            GitHub
+          </a>
           <button
             onClick={() => navigate('/dashboard')}
-            className="relative orange-border px-4 py-2 bg-green-500 text-white font-semibold rounded-md shadow transition-colors duration-150 ease-in-out"
+            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md shadow transition-colors duration-150 ease-in-out"
           >
             Dashboard
           </button>
