@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import mantisIcon1 from '../assets/6.png';
 import mantisIcon2 from '../assets/7.png';
 import mantisIcon3 from '../assets/8.png';
+import ecosystemImage from '../assets/Ecosystem.png';
 import Documentation from './documentation';
 
 const Home: React.FC = () => {
@@ -37,10 +38,13 @@ const Home: React.FC = () => {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              className="rounded-lg"
             ></iframe>
           </div>
         </div>
       </section>
+
+      
 
       {/* Features Section */}
       <section className="bg-[#1a1a1a] text-white flex flex-col md:flex-row items-center justify-evenly py-12">
@@ -82,6 +86,17 @@ const Home: React.FC = () => {
           </p>
         </div>
       </section>
+
+      {/* Ecosystem Section */}
+      <section className="bg-white text-gray-800 p-8 flex items-center justify-center">
+        <img
+          src={ecosystemImage}
+          alt="Mantis Ecosystem"
+          className="w-full max-w-4xl h-auto mx-auto rounded-lg"
+        />
+      </section>
+
+      
 
       {/* Download & Installation Section */}
       <section className="bg-white text-gray-800 p-8">

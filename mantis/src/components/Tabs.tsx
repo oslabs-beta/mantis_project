@@ -6,20 +6,21 @@ interface TabsProps {
   activeTab: number;
   onTabChange: (index: number) => void;
 }
+
 const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onTabChange }) => {
   return (
-    <div className='tabs-container '>
-      <div className='tabs flex flex-row ml-1 mb-1.5'>
+    <div className="flex justify-center mb-2">
+      {/* Dark, semi-transparent tabs container */}
+      <div className="flex flex-row flex-wrap p-2 rounded-lg bg-black/30 backdrop-blur-sm">
         {tabs.map((tab, index) => (
           <Tab
             key={index}
             label={tab.label}
-            onClick={() => onTabChange(index)} // Pass the index to the onTabChange handler
-            isActive={activeTab === index} // Compare the current tab's index with the activeTab prop
+            onClick={() => onTabChange(index)}
+            isActive={activeTab === index}
           />
         ))}
       </div>
-      <div className='tab-content'></div> {/* Display active tab label */}
     </div>
   );
 };

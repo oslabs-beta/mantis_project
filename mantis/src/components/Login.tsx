@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isFilled, setIsFilled] = useState(false);
 
+  // Dummy user for demonstration
   const user = {
     email: 'test@example.com',
     password: 'password',
@@ -13,90 +13,94 @@ const Login: React.FC = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-  const handleRegister = () => {};
+
+  const handleRegister = () => {
+    // Replace with your actual registration logic or navigation
+    alert('Navigate to Registration Page');
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email !== user.email || password !== user.password) {
-      alert('Invalid email or password');
-    } else if (!email || !password) {
+    if (!email || !password) {
       alert('Please enter your email and password');
+    } else if (email !== user.email || password !== user.password) {
+      alert('Invalid email or password');
     } else {
       alert('Login successful');
     }
   };
 
-  const checkFields = (email: string, password: string) => {
-    if (email || password) {
-      setIsFilled(true);
-    } else {
-      setIsFilled(false);
-    }
-  };
-
   return (
-    <div className='login-container flex justify-center items-center h-auto'>
+    <div className="login-container flex justify-center items-center w-full">
+      {/* Glass/blur effect container */}
       <div
-        className={`login-form w-96 p-6 border-1 rounded-xl shadow-xl transition-all duration-300 ease-in-out ${
-          isFilled || email || password
-            ? 'bg-[rgba(25,59,45,0.9)]'
-            : 'bg-[rgba(25,59,45,0.8)]'
-        } hover:bg-[rgba(25,59,45,0.9)]`}
+        className="
+          login-form w-full max-w-sm p-6 
+          rounded-xl shadow-2xl 
+          bg-[rgba(25,59,45,0.5)] 
+          backdrop-blur-md
+        "
       >
         <h1
-          className='text-xl font-bold text-white mb-2'
-          style={{
-            fontFamily: '"Faustina", sans-serif',
-            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.8)',
-          }}
+          className="text-2xl font-semibold text-white mb-4"
+          style={{ fontFamily: '"Faustina", sans-serif' }}
         >
           Login
         </h1>
-        <form onSubmit={handleSubmit}>
-          <h2 className='text-sm text-white text-left'>Email Address</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Email */}
           <input
-            type='email'
-            id='email'
-            placeholder='Email'
+            type="email"
+            id="email"
+            placeholder="Email"
             value={email}
             onChange={handleEmailChange}
-            className='input bg-white rounded border-1 h-8 w-full p-1'
+            className="w-full p-2 rounded-md focus:outline-none border 
+                       focus:ring-2 focus:ring-[#A3CD9A]"
           />
-          <h3 className='text-sm text-white mt-2 text-left'>Password</h3>
+          {/* Password */}
           <input
-            type='password'
-            id='password'
-            placeholder='Password'
+            type="password"
+            id="password"
+            placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
-            className='input bg-white rounded border-1 h-8 w-full p-1'
+            className="w-full p-2 rounded-md focus:outline-none border 
+                       focus:ring-2 focus:ring-[#A3CD9A]"
           />
-          <div className='text-right text-sm'>
-            <button className='forgot-password-button text-white hover:font-bold hover:text-[#fdb53d] transition-colors duration-200 ease-in-out'>
+          {/* Forgot Password */}
+          <div className="text-right">
+            <button
+              type="button"
+              className="text-sm text-[#fdb53d] hover:text-[#fce3a9]"
+            >
               Forgot Password
             </button>
           </div>
-          <div className='flex flex-row justify-center gap-2 mt-3'>
-            <button
-              type='submit'
-              className='login-button w-full h-8 rounded-md bg-[#A3CD9A] hover:bg-[#FDF6BF] transition-colors duration-200 ease-in-out'
-              style={{
-                fontFamily: '"Faustina", sans-serif',
-                textShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
-              }}
-            >
-              Sign In
-            </button>
-          </div>
-          {/* <a href='/register' className=''> */}
+          {/* Sign In */}
           <button
-            type='button'
-            onClick={handleRegister}
-            className='register-button text-white text hover:font-bold hover:text-[#fdb53d] transition-colors duration-200 ease-in-out'
+            type="submit"
+            className="
+              login-button w-full py-2 mt-2 rounded-md 
+              bg-[#A3CD9A] text-[#193B2D] font-semibold 
+              hover:bg-[#fdf6bf] 
+              transition-colors duration-200
+            "
+            style={{ fontFamily: '"Faustina", sans-serif' }}
           >
-            Don't have an account? Register
+            Sign In
+          </button>
+          {/* Register */}
+          <button
+            type="button"
+            onClick={handleRegister}
+            className="text-sm text-white mt-2 hover:underline"
+          >
+            Don&apos;t have an account? <span className="font-bold">Register</span>
           </button>
         </form>
       </div>

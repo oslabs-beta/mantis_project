@@ -1,67 +1,59 @@
-// src/components/LoginPage.tsx
 import React from 'react';
 import Login from './Login';
 import Logo from '../assets/logo.png';
 
 const LoginPage: React.FC = () => {
+  // Dummy OAuth handler; replace with your actual OAuth login logic
+  const handleOAuthLogin = (provider: string) => {
+    console.log(`Initiate OAuth flow for ${provider}`);
+    // For a real implementation, you might redirect to your OAuth endpoint:
+    // window.location.href = `https://your-oauth-endpoint.com/auth?provider=${provider}`;
+  };
+
   return (
     <div
-      className="login-page p-4 relative h-screen w-full flex items-center justify-center"
+      className="login-page relative h-screen w-full flex flex-col items-center justify-center 
+                 bg-center bg-cover bg-no-repeat"
       style={{
         fontFamily: '"IBM Plex Serif", sans-serif',
+        backgroundImage: `url(${Logo})`,
+        backgroundSize: 'contain',
       }}
     >
-      {/* Background image */}
-      <div
-        className="absolute inset-0 bg-center bg-no-repeat w-full h-full z-0"
-        style={{
-          backgroundImage: `url(${Logo})`,
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          maxWidth: '100%',
-          maxHeight: '100%',
-        }}
-      />
-      <div className="absolute z-10 items-center text-center w-full top-80">
-        <h1
-          className="font-bold tracking-[2.3rem] text-emerald-950"
-          style={{
-            fontFamily: '"Faustina", sans-serif',
-            textShadow: '2px 2px 5px rgba(0, 0, 0, 1.5)',
-            fontSize: '5vw',
-            transform: 'translateX(20px)',
-          }}
-        >
-          MANTIS
-        </h1>
-        <p
-          className="font-bold tracking-wide text-emerald-950"
-          style={{
-            fontFamily: '"Faustina", sans-serif',
-            textShadow: '2px 2px 5px rgba(255, 255, 255, 1.5)',
-            fontSize: '1.2vw',
-          }}
-        >
-          Fast and precise microservice metrics tracker
-        </p>
-        <div className="relative top-7">
-          <Login />
-        </div>
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-[#193B2D]/60 z-0" />
 
-        <p
-          className="text-[#FDF7BF] tracking-[0.2rem]"
-          style={{
-            fontFamily: '"Faustina", sans-serif',
-            position: 'absolute',
-            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.8)',
-            top: 'calc(100% + 8vh)',
-            fontSize: '1.2vw',
-            width: '100%',
-            textAlign: 'center',
-          }}
+      {/* Main container for content */}
+      <div className="relative z-10 flex flex-col items-center justify-center max-w-md w-full p-4">
+        {/* Optional heading or brand text */}
+        <h1
+          className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-white tracking-widest"
+          style={{ fontFamily: '"Faustina", sans-serif' }}
         >
-          Spread your wings and try Mantis today
-        </p>
+          {/* “Mantis” or “Welcome Back” or any brand text */}
+        </h1>
+
+        {/* Login form component */}
+        <Login />
+
+        {/* OAuth Section */}
+        <div className="mt-6 text-center">
+          <span className="text-white font-medium">or sign in with</span>
+          <div className="flex gap-4 justify-center mt-4">
+            <button
+              onClick={() => handleOAuthLogin('google')}
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md"
+            >
+              Google
+            </button>
+            <button
+              onClick={() => handleOAuthLogin('github')}
+              className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-6 rounded-full shadow-md"
+            >
+              GitHub
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
