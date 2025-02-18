@@ -1,25 +1,55 @@
 // src/components/NavBar.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import mantisLogo from '../assets/wingLogo.png'; // an image of your choice
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
+  const [isBursting, setIsBursting] = useState(false);
+
+  const handleDashboardClick = () => {
+    // Trigger the burst effect
+    setIsBursting(true);
+    // Let the burst run for 400ms then navigate
+    setTimeout(() => {
+      setIsBursting(false);
+      navigate('/dashboard');
+    }, 400);
+  };
 
   return (
     <>
+      <style>
+        {`
+          @keyframes burst {
+            0% {
+              box-shadow: 0 0 0px rgba(0,255,0,0);
+            }
+            50% {
+              box-shadow: 0 0 8px 1px rgba(0,255,0,1);
+            }
+            100% {
+              box-shadow: 0 0 0px rgba(0,255,0,0);
+            }
+          }
+        `}
+      </style>
       <nav className="flex items-center justify-between bg-[#193B2D] p-4 shadow-md">
         {/* Left side - logo and brand name */}
         <Link to="/" className="flex items-center">
-          <img src={mantisLogo} alt="Mantis Logo" className="h-8 w-8 mr-2" />
+          <img
+            src={mantisLogo}
+            alt="Mantis Logo"
+            className="h-12 w-12 mr-2"
+          />
           <span
-            className="text-white text-xl font-bold"
+            className="text-white text-2xl font-bold"
             style={{ fontFamily: '"Faustina", sans-serif' }}
           >
             Mantis
           </span>
         </Link>
-        {/* Right side - GitHub, Dashboard and Login */}
+        {/* Right side - GitHub, Dashboard, Login, Documentation */}
         <div className="flex space-x-4 items-center">
           <a
             href="https://github.com/oslabs-beta/mantis_project"
@@ -30,10 +60,19 @@ const NavBar: React.FC = () => {
             GitHub
           </a>
           <button
-            onClick={() => navigate('/dashboard')}
-            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md shadow transition-colors duration-150 ease-in-out"
+            onClick={handleDashboardClick}
+            className="relative overflow-hidden group px-4 py-2 bg-green-500 hover:bg-indigo-500 text-white font-semibold rounded-md shadow transition-colors duration-150 ease-in-out"
+            style={isBursting ? { animation: 'burst 0.4s forwards' } : {}}
           >
             Dashboard
+            <span className="absolute -left-[100%] top-0 w-[200%] h-full transform rotate-12 opacity-0 group-hover:opacity-100 group-hover:translate-x-[200%] transition-all duration-500 ease-out pointer-events-none">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
+                <path
+                  d="M0,20 C20,0 80,0 100,20 C80,40 20,40 0,20 Z"
+                  fill="rgba(0,255,0,0.7)"
+                />
+              </svg>
+            </span>
           </button>
           <button
             onClick={() => navigate('/login')}
@@ -41,6 +80,7 @@ const NavBar: React.FC = () => {
           >
             Login
           </button>
+    
         </div>
       </nav>
       <style>{`
