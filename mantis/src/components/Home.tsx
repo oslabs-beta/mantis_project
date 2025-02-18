@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import mantisIcon1 from '../assets/6.png';
 import mantisIcon2 from '../assets/7.png';
 import mantisIcon3 from '../assets/8.png';
+import Documentation from './documentation';
 
 const Home: React.FC = () => {
   return (
@@ -94,8 +95,8 @@ const Home: React.FC = () => {
           </pre>
           <p className="mt-4">
             For detailed installation instructions and integration guides, check out our{" "}
-            <Link to="/docs" className="text-blue-600 hover:underline">
-              documentation
+            <Link to="/documentation" className="text-blue-600 hover:underline">
+              Documentation
             </Link>.
           </p>
         </div>

@@ -4,6 +4,8 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';          // New modern homepage
 import Dashboard from './components/Dashboard';
 import LoginPage from './components/LoginPage'; // Old homepage → now the login screen
+import Documentation from './components/Documentation';
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/documentation" element={<Documentation />} />
           <Route path="/login" element={<LoginPage />} />
           {/* Add more routes as needed */}
         </Routes>
