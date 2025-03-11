@@ -3,38 +3,19 @@ services:
     build:
       context: ./server
     container_name: express-api
+    env_file:
+      - .env
     ports:
       - '3001:3001'
     depends_on:
       - prometheus
-      - influxdb
+      # - influxdb
     environment:
-      - INFLUX_URL=http://influxdb:8086
-      - INFLUX_TOKEN=supersecret
+      - INFLUX_URL=https://us-east-1-1.aws.cloud2.influxdata.com
+      - INFLUX_TOKEN=v_4V4M6inDq7zcgbwKkMpQoJGdccqXR3ZSDZ9f3U30U0-gwO7RB4R_Yu1T62m9x9ZNDIRHOnMXMK0ji1O0F_sA==
       - ORG=MainOrg
       - BUCKET=myBucket
-      - INFLUX_ORG_ID=3ac2a3157de776b5
-
-  influxdb:
-    image: influxdb:2.7.1
-    container_name: influxdb
-    ports:
-      - '8086:8086'
-    environment:
-      DOCKER_INFLUXDB_INIT_MODE: setup
-      DOCKER_INFLUXDB_INIT_USERNAME: admin
-      DOCKER_INFLUXDB_INIT_PASSWORD: supersecret
-      DOCKER_INFLUXDB_INIT_ORG: MainOrg
-      DOCKER_INFLUXDB_INIT_BUCKET: myBucket
-      DOCKER_INFLUXDB_INIT_RETENTION: 30d
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: supersecret
-    volumes:
-      - ./influx_data:/var/lib/influxdb2
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:8086/health']
-      interval: 10s
-      retries: 5
-      start_period: 5s
+      - INFLUX_ORG_ID=4b0bdb9cb7ea7c6c
 
   mongodb:
     image: mongo:latest

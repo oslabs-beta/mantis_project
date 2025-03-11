@@ -3,12 +3,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const MONGO_URI =
-  process.env.MONGO_URI || "mongodb+srv://dcarschmit:tVylr0QkTk8dVgvq@mantis.o6zda.mongodb.net/?retryWrites=true&w=majority&appName=Mantis";
+console.log("MONGO_URI from env:", process.env.MONGO_URI)
+
+const MONGO_URL = process.env.MONGO_URI;
+
+console.log(MONGO_URL);
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGO_URI, {
+    await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     } as mongoose.ConnectOptions);

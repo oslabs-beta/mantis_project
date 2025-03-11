@@ -1,64 +1,66 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface RegisterProps {
   onRegisterSuccess?: (user: LoggedInUser) => void;
 }
 
 const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password || !username) {
-      alert('Please fill in all fields');
+      alert("Please fill in all fields");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/create-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:3001/api/create-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
       });
 
       if (!response.ok) {
-        alert('Registration failed');
+        alert("Registration failed");
         return;
       }
-      
+
       const data = await response.json();
-      
+
       // Store user data in localStorage
-      localStorage.setItem('mantisUser', JSON.stringify({
-        _id: data.user._id,
-        username: data.user.username,
-        email: email,
-        token: data.token || '',
-        influxToken: data.influxToken,
-        bucket: data.bucket
-      }));
-      
-      alert('Registration successful!');
-      
+      localStorage.setItem(
+        "mantisUser",
+        JSON.stringify({
+          // _id: data.user._id,
+          username: username,
+          email: email,
+          token: data.token || "",
+          influxToken: data.influxToken,
+          bucket: data.bucket,
+        })
+      );
+
+      // alert('Registration successful!');
+
       if (onRegisterSuccess) {
         onRegisterSuccess({
-          _id: data.user._id,
-          username: data.user.username,
-          token: data.token || '',
+          // _id: data.user._id,
+          username: username,
+          token: data.token || "",
           influxToken: data.influxToken,
-          bucket: data.bucket
+          bucket: data.bucket,
         });
       }
-      
-      navigate('/dashboard');
-      
+
+      navigate("/dashboard");
     } catch (error) {
-      console.error('Registration error:', error);
-      alert('Error during registration');
+      console.error("Registration error:", error);
+      alert("Error during registration");
     }
   };
 
@@ -107,7 +109,7 @@ const Register: React.FC<RegisterProps> = ({ onRegisterSuccess }) => {
 
           <button
             type="button"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate("/login")}
             className="text-sm text-white mt-2 hover:underline"
           >
             Already have an account? <span className="font-bold">Sign In</span>

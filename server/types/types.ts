@@ -13,6 +13,7 @@ export interface IUser extends Document {
   password: string;
   influxToken: string;
   bucket: string;
+  apiKey: string;
 }
 
 export interface AuthenticatedRequest extends Request {

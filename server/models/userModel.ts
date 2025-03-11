@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema<IUser>({
   password: { type: String, required: true },
   influxToken: { type: String, required: true },
   bucket: { type: String, required: true },
+  apiKey: {type:String}
 });
 
 userSchema.pre("save", async function (next) {

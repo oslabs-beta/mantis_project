@@ -56,23 +56,23 @@ app.use("/api", metricsRoutes);
 app.use("/api", userRoutes);
 
 
-// Log in once at startup
-loginAndStoreToken().then(() => {
-  console.log("✅ Background job initialized. Using token:", userToken);
-});
+// // Log in once at startup
+// loginAndStoreToken().then(() => {
+//   console.log("✅ Background job initialized. Using token:", userToken);
+// });
 
-// Run main traffic endpoints every 40s
-setInterval(() => {
-  console.log("🔁 Triggering endpoints with token:", userToken);
-  const endpoints = ["payment", "order", "user", "travel"];
-  endpoints.forEach((endpoint) => triggerEndpoint(endpoint));
-}, 40000);;
+// // Run main traffic endpoints every 40s
+// setInterval(() => {
+//   console.log("🔁 Triggering endpoints with token:", userToken);
+//   const endpoints = ["payment", "order", "user", "travel"];
+//   endpoints.forEach((endpoint) => triggerEndpoint(endpoint));
+// }, 40000);;
 
-// Run lower-priority endpoints every 120s
-setInterval(() => {
-  const extraEndpoints = ["createUser", "dashboard", "login1", "home", "payment_card"];
-  extraEndpoints.forEach((endpoint) => triggerErrors(endpoint)); // Pass each endpoint
-}, 60000);
+// // Run lower-priority endpoints every 120s
+// setInterval(() => {
+//   const extraEndpoints = ["createUser", "dashboard", "login1", "home", "payment_card"];
+//   extraEndpoints.forEach((endpoint) => triggerErrors(endpoint)); // Pass each endpoint
+// }, 60000);
 
 //Global error handler
 const errorHandler: ErrorRequestHandler = (
