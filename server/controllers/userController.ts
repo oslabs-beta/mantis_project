@@ -88,7 +88,7 @@ export const createNewUser: RequestHandler = async (req: Request, res: Response,
       influxToken: userToken,
       apiKey,
     });
-    
+    console.log(apiKey)
   } catch (error) {
     console.error("Error creating user:", error);
     return next(error);

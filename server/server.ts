@@ -6,8 +6,6 @@ import cors from "cors";
 import endpointRoutes from "./routes/endpointRoute.ts";
 import metricsRoutes from "./routes/metricsRoute.ts";
 import userRoutes from "./routes/userRoute.ts";
-import { loginAndStoreToken, triggerEndpoint, userToken, triggerErrors } from "./controllers/automation.ts";
-// import { set } from "mongoose";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -26,20 +24,65 @@ app.use(express.json());
 connectDB();
 
 // Prometheus configuration
+// const httpRequestDuration = new client.Histogram({
+//   name: "http_request_duration_seconds",
+//   help: "Duration of HTTP requests in seconds",
+//   labelNames: ["method", "route", "status"],
+//   buckets: [0.1, 0.3, 0.5, 1, 1.5, 2], // Define the bucket intervals
+// });
+
+// app.use((req: UserPrometheus, res: Response, next: NextFunction) => {
+//   const stopTimer = httpRequestDuration.startTimer();
+//   res.on("finish", () => {
+//     stopTimer({
+//       method: req.method,
+//       route: req.route ? req.route.path : req.originalUrl,
+//       status: res.statusCode,
+//     });
+//   });
+//   next();
+// });
+
+// app.get("/metrics", async (_req, res) => {
+//   res.set("Content-Type", client.register.contentType);
+//   res.end(await client.register.metrics());
+// });
+// Update the counter to include a "user" label
+export const httpRequestsTotal = new client.Counter({
+  name: "http_api_requests_total",
+  help: "Total number of HTTP API requests",
+  labelNames: ["method", "route", "status", "user"],
+});
+
+// Histogram remains the same (if needed for latency)
 const httpRequestDuration = new client.Histogram({
   name: "http_request_duration_seconds",
   help: "Duration of HTTP requests in seconds",
   labelNames: ["method", "route", "status"],
-  buckets: [0.1, 0.3, 0.5, 1, 1.5, 2], // Define the bucket intervals
+  buckets: [0.1, 0.3, 0.5, 1, 1.5, 2],
 });
 
-app.use((req: UserPrometheus, res: Response, next: NextFunction) => {
+// Middleware to capture metrics for every request.
+app.use((req, res, next) => {
   const stopTimer = httpRequestDuration.startTimer();
   res.on("finish", () => {
+    // Get the user label from req.user if available; default to "anonymous"
+    const userLabel = (req as any).user && (req as any).user.username 
+      ? (req as any).user.username 
+      : "anonymous";
+    
+    // Record latency
     stopTimer({
       method: req.method,
       route: req.route ? req.route.path : req.originalUrl,
       status: res.statusCode,
+    });
+    // Increment the total request counter with user label
+    httpRequestsTotal.inc({
+      method: req.method,
+      route: req.route ? req.route.path : req.originalUrl,
+      status: res.statusCode.toString(),
+      user: userLabel,
     });
   });
   next();
@@ -56,25 +99,6 @@ app.use("/api", metricsRoutes);
 app.use("/api", userRoutes);
 
 
-// // Log in once at startup
-// loginAndStoreToken().then(() => {
-//   console.log("✅ Background job initialized. Using token:", userToken);
-// });
-
-// // Run main traffic endpoints every 40s
-// setInterval(() => {
-//   console.log("🔁 Triggering endpoints with token:", userToken);
-//   const endpoints = ["payment", "order", "user", "travel"];
-//   endpoints.forEach((endpoint) => triggerEndpoint(endpoint));
-// }, 40000);;
-
-// // Run lower-priority endpoints every 120s
-// setInterval(() => {
-//   const extraEndpoints = ["createUser", "dashboard", "login1", "home", "payment_card"];
-//   extraEndpoints.forEach((endpoint) => triggerErrors(endpoint)); // Pass each endpoint
-// }, 60000);
-
-//Global error handler
 const errorHandler: ErrorRequestHandler = (
   err: ServerError,
   _req,
